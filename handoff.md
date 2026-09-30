@@ -8,12 +8,13 @@
 
 ## 🚦 目前狀態
 
-網站可直接開啟 `index.html` 使用，且已公開推送至 GitHub：`https://github.com/imkait/jun-pdf-lib`。`8年級第1學期/` 的教材已按國文、理化、地理、歷史、公民連結；其餘分類頁已建立，等待教材加入。
+網站可直接開啟 `index.html` 使用，且已公開推送至 GitHub：`https://github.com/imkait/jun-pdf-lib`。本機目前使用 `main`，追蹤 `origin/main`；GitHub 網站的預設分支仍待改為 `main`。`8年級第1學期/` 的教材已按國文、理化、地理、歷史、公民連結；其餘分類頁已建立，等待教材加入。
 
 ## ➡️ 下一步
 
 1. 新增教材時，先確認所屬分類，再在對應頁面新增 PDF 連結。
 2. 視需要設定 GitHub Pages，讓網站可透過公開網址瀏覽。
+3. 在 GitHub 將預設分支切換為 `main` 後，刪除遠端 `master`。
 
 ## ⚠️ 注意事項
 
