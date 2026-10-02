@@ -126,7 +126,7 @@ main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
 .subject h2 { margin: 0; font-family: "Noto Serif TC", "PMingLiU", serif; font-size: 1.3rem; }
 .subject-count { color: var(--ink-soft); font-size: .78rem; }
 .tag { display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 50%; }
-.chinese .tag { background: var(--vermilion); }.science .tag { background: var(--leaf); }.geography .tag { background: var(--sky); }.history .tag { background: var(--gold); }.civics .tag { background: var(--violet); }
+.chinese .tag { background: var(--vermilion); }.science .tag { background: var(--leaf); }.math .tag { background: var(--ink); }.physics .tag { background: var(--sky); }.chemistry .tag { background: var(--gold); }.biology .tag { background: var(--leaf); }.earth-science .tag { background: var(--violet); }.geography .tag { background: var(--sky); }.history .tag { background: var(--gold); }.civics .tag { background: var(--violet); }
 
 .document-list { margin: 0; padding: 0; list-style: none; }
 .document-list a { display: block; padding: 13px 18px; text-decoration: none; line-height: 1.55; border-bottom: 1px solid rgba(203, 189, 158, .65); transition: background-color .18s ease, padding-left .18s ease; }
