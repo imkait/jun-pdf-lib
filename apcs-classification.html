@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>APCS 實作題演算法分類</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d2433;
+      --muted: #697386;
+      --line: #d9e1ec;
+      --paper: #f7f9fc;
+      --panel: #ffffff;
+      --accent: #0f766e;
+      --accent-2: #b45309;
+      --accent-3: #2563eb;
+      --soft: #e6f4f1;
+      --soft-2: #fff4df;
+      --shadow: 0 14px 40px rgba(29, 36, 51, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    header {
+      background:
+        linear-gradient(135deg, rgba(15, 118, 110, 0.95), rgba(37, 99, 235, 0.88)),
+        url("https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1800&q=80") center / cover;
+      color: white;
+      padding: 64px 24px 56px;
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .hero {
+      max-width: 860px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(2rem, 4vw, 4rem);
+      line-height: 1.12;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 760px;
+      font-size: 1.08rem;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    main {
+      padding: 28px 0 56px;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      margin: -54px auto 28px;
+      padding: 16px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font: inherit;
+      color: var(--ink);
+      background: white;
+    }
+
+    .stats {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      white-space: nowrap;
+      font-size: 0.95rem;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-block;
+    }
+
+    .category {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      margin: 18px 0;
+      overflow: hidden;
+    }
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, var(--soft), #ffffff);
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.24rem;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .tag {
+      align-self: flex-start;
+      border: 1px solid rgba(15, 118, 110, 0.28);
+      background: #ffffff;
+      color: var(--accent);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      white-space: nowrap;
+    }
+
+    .note {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .problems {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .problem {
+      min-height: 58px;
+      border-top: 1px solid #eef2f7;
+      border-right: 1px solid #eef2f7;
+      padding: 12px 16px;
+    }
+
+    .problem a,
+    .problem span {
+      display: inline;
+      color: var(--ink);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .problem a:hover {
+      color: var(--accent-3);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .problem small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .empty {
+      display: none;
+      padding: 20px;
+      background: var(--soft-2);
+      border: 1px solid #f2d4a7;
+      color: var(--accent-2);
+      border-radius: 8px;
+    }
+
+    footer {
+      padding: 28px 0 40px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 720px) {
+      header { padding-top: 44px; }
+      .wrap { width: min(100% - 28px, 1120px); }
+      .toolbar { grid-template-columns: 1fr; margin-top: -38px; }
+      .category-header { display: block; }
+      .tag { display: inline-block; margin-top: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <h1>APCS 實作題演算法分類</h1>
+      <p class="lead">依據王一哲老師整理的 APCS 歷屆實作題與解題範例，將題目按主要演算法與資料結構分類。點選題名可開啟原 HackMD 解題頁。</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="toolbar" aria-label="搜尋與統計">
+      <input id="search" type="search" placeholder="搜尋年份、題名或演算法，例如：2024、DP、遊戲選角">
+      <div class="stats"><span class="dot"></span><span id="visible-count">0</span> / <span id="total-count">0</span> 題</div>
+    </section>
+
+    <div id="empty" class="empty">找不到符合條件的題目。</div>
+
+    <section class="category" data-category="基礎輸入輸出 條件判斷 公式 模擬">
+      <div class="category-header">
+        <div>
+          <h2>基礎輸入輸出、條件判斷與公式模擬</h2>
+          <p class="note">重點在題意轉換、狀態更新、條件分支與簡單迴圈。</p>
+        </div>
+        <span class="tag">24 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ByGofIX6o" target="_blank" rel="noopener">2016年10月實作題第1題：三角形辨別</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rk_IqImTi" target="_blank" rel="noopener">2016年10月實作題第2題：最大和</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJQ1sDDTi" target="_blank" rel="noopener">2016年10月實作題第4題：棒球遊戲</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1926tOao" target="_blank" rel="noopener">2017年3月實作題第1題：秘密差</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Bk73vTaTj" target="_blank" rel="noopener">2017年10月實作題第1題：邏輯運算子</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1H1mUFA3" target="_blank" rel="noopener">2019年6月實作題第1題：籃球比賽</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJr6L8Skp" target="_blank" rel="noopener">2020年1月實作題第1題：猜拳</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HyPh0FCAh" target="_blank" rel="noopener">2020年7月實作題第1題：購物車</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ryTNw5003" target="_blank" rel="noopener">2020年7月實作題第2題：骰子</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ryV42h5A3" target="_blank" rel="noopener">2020年10月實作題第1題：人力分配</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJAp0VlJa" target="_blank" rel="noopener">2021年1月實作題第1題：購買力</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1mjswWyT" target="_blank" rel="noopener">2021年9月實作題第1題：七言對聯</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/H1TdTVmkp" target="_blank" rel="noopener">2021年11月實作題第1題：修補圍籬</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJ440u5Jp" target="_blank" rel="noopener">2022年1月實作題第1題：程式交易</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/r1ldJ0jya" target="_blank" rel="noopener">2022年6月實作題第1題：數字遊戲</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkUJQ5C1T" target="_blank" rel="noopener">2022年10月實作題第1題：巴士站牌</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/r1giqxxea" target="_blank" rel="noopener">2023年1月實作題第1題：程式考試</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJ09cK45p" target="_blank" rel="noopener">2024年1月實作題第1題：遊戲選角</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rkMviEbDA" target="_blank" rel="noopener">2024年6月實作題第1題：特技表演</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hy-HRcOgJe" target="_blank" rel="noopener">2024年10月實作題第1題：裝飲料</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hyh09FQDJe" target="_blank" rel="noopener">2025年1月實作題第1題：等紅綠燈</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Sk06E75Vel" target="_blank" rel="noopener">2025年6月實作題第1題：小心陷阱</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJ4OBX5Eel" target="_blank" rel="noopener">2025年6月實作題第2題：轉盤得分</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJDWbgHkWl" target="_blank" rel="noopener">2025年10月中級實作題第2題：航空拍照圖</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="排序 掃描線 區間合併">
+      <div class="category-header">
+        <div>
+          <h2>排序、掃描線與區間合併</h2>
+          <p class="note">先排序再線性掃描，或用端點事件整理區間。</p>
+        </div>
+        <span class="tag">7 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rk2jpQkas" target="_blank" rel="noopener">2016年3月實作題第1題：成績指標</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ByGsGYepo" target="_blank" rel="noopener">2016年3月實作題第3題：線段覆蓋長度</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/r1LDMAH0s" target="_blank" rel="noopener">2017年10月實作題第4題：物品堆疊</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ByFRLHF0n" target="_blank" rel="noopener">2018年實作題：最少相異字母</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJ9G5-B96" target="_blank" rel="noopener">2023年10月實作題第1題：機械鼠</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hy9NWxHyZx" target="_blank" rel="noopener">2025年10月中級實作題第3題：商品包裝地</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BylKp0J1c-e" target="_blank" rel="noopener">2026年3月中高級實作題第2題：觀光旅遊</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="二分搜尋 答案搜尋">
+      <div class="category-header">
+        <div>
+          <h2>二分搜尋與答案搜尋</h2>
+          <p class="note">對答案或位置做二分，搭配可行性檢查、前綴和或枚舉。</p>
+        </div>
+        <span class="tag">5 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1vYso5Xke" target="_blank" rel="noopener">2017年3月實作題第4題：基地台</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hyk24_qP0" target="_blank" rel="noopener">2020年7月實作題第3題：圓環出口</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkZh8Y3xkx" target="_blank" rel="noopener">2024年10月實作題第3題：連鎖反應</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SyjN5Htx-g" target="_blank" rel="noopener">2025年11月高級實作題第2題：列印工廠</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/H1GSRN6Kbe" target="_blank" rel="noopener">2026年3月中高級實作題第1題：比例分割</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="陣列 矩陣 座標 模擬">
+      <div class="category-header">
+        <div>
+          <h2>陣列、矩陣與座標模擬</h2>
+          <p class="note">處理二維資料、旋轉翻轉、局部更新、格點移動與邊界條件。</p>
+        </div>
+        <span class="tag">9 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rkY1arJpo" target="_blank" rel="noopener">2016年3月實作題第2題：矩陣轉換</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SydXs83ai" target="_blank" rel="noopener">2017年3月實作題第3題：數字龍捲風</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Byp2URY1p" target="_blank" rel="noopener">2020年1月實作題第2題：矩陣總和</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJn0aN6R3" target="_blank" rel="noopener">2020年10月實作題第2題：人口遷移</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Byd0Idzep" target="_blank" rel="noopener">2023年6月實作題第2題：特殊位置</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SkYgeaE5a" target="_blank" rel="noopener">2024年1月實作題第2題：蜜蜂觀察</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJPsXBZDA" target="_blank" rel="noopener">2024年6月實作題第2題：電子畫布</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SkYNfd3ekl" target="_blank" rel="noopener">2024年10月實作題第2題：蒐集寶石</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SkQShJSy-e" target="_blank" rel="noopener">2025年10月中級實作題第1題：彗星撞擊</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="字串 編碼 解碼">
+      <div class="category-header">
+        <div>
+          <h2>字串處理與編碼解碼</h2>
+          <p class="note">檢查字元規律、生成候選字串、拆解或重組字串狀態。</p>
+        </div>
+        <span class="tag">5 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJ7YCobAs" target="_blank" rel="noopener">2017年10月實作題第2題：交錯字串</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1xKgln1a" target="_blank" rel="noopener">2022年6月實作題第2題：字串解碼</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1aiSwZga" target="_blank" rel="noopener">2023年1月實作題第2題：造字程式</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SyjiNy7PR" target="_blank" rel="noopener">2024年6月實作題第3題：缺字問題</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkXs1qXw1g" target="_blank" rel="noopener">2025年1月實作題第2題：字串操作</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="Stack 遞迴解析 表達式樹">
+      <div class="category-header">
+        <div>
+          <h2>Stack、遞迴解析與表達式樹</h2>
+          <p class="note">利用堆疊或遞迴解析巢狀結構、前序表示式與邏輯電路。</p>
+        </div>
+        <span class="tag">3 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ryyqlY-o0" target="_blank" rel="noopener">2018年10月實作題第3題：DF-expression</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ry53WGNMp" target="_blank" rel="noopener">2019年2月實作題第3題：函數運算式求值</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkuNyfmha" target="_blank" rel="noopener">2024年1月實作題第3題：邏輯電路</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="Queue Deque Josephus 佇列">
+      <div class="category-header">
+        <div>
+          <h2>Queue / Deque 與循環模擬</h2>
+          <p class="note">用佇列、雙端佇列或索引維護一連串淘汰與消除過程。</p>
+        </div>
+        <span class="tag">3 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJlK7VrTj" target="_blank" rel="noopener">2016年10月實作題第3題：定時K彈</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SyR3e6rcp" target="_blank" rel="noopener">2023年10月實作題第2題：卡牌遊戲</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hkea_h_xbl" target="_blank" rel="noopener">2025年11月高級實作題第1題：字母配對</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="Sliding Window Set Hash 雜湊 前綴">
+      <div class="category-header">
+        <div>
+          <h2>Sliding Window、Set 與 Hash</h2>
+          <p class="note">用集合、字典、前綴狀態或固定長度視窗快速統計。</p>
+        </div>
+        <span class="tag">6 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SkhZxPTjA" target="_blank" rel="noopener">2019年6月實作題第3題：互補團隊</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJaiESqv0" target="_blank" rel="noopener">2019年6月實作題第4題：美麗的彩帶</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJeigpwga" target="_blank" rel="noopener">2022年10月實作題第2題：運貨站</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkPiufesR" target="_blank" rel="noopener">2024年6月實作題第4題：最佳選擇</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hy9NWxHyZx" target="_blank" rel="noopener">2025年10月中級實作題第3題：商品包裝地</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJ2RCxJ5Wg" target="_blank" rel="noopener">2026年3月中高級實作題第3題：校運代表隊</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="位元 Bitmask Bitset Fenwick BIT">
+      <div class="category-header">
+        <div>
+          <h2>位元運算、Bitmask、Bitset 與 BIT</h2>
+          <p class="note">用二進位狀態壓縮、可達集合或 Fenwick Tree 加速計算。</p>
+        </div>
+        <span class="tag">5 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1u6diFRn" target="_blank" rel="noopener">2018年實作題：置物櫃分配</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SkhZxPTjA" target="_blank" rel="noopener">2019年6月實作題第3題：互補團隊</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HytOgCFsC" target="_blank" rel="noopener">2021年11月實作題第4題：真假子圖</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJHABxcYR" target="_blank" rel="noopener">2022年6月實作題第4題：內積</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1zF9Htlbx" target="_blank" rel="noopener">2025年11月高級實作題第3題：翻來覆去</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="樹 拓樸 DFS BFS">
+      <div class="category-header">
+        <div>
+          <h2>樹、拓樸排序與 DFS / BFS</h2>
+          <p class="note">走訪樹或圖、處理父子關係、連通區域、可達性與拓樸順序。</p>
+        </div>
+        <span class="tag">15 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJvzv5OsA" target="_blank" rel="noopener">2016年3月實作題第4題：血緣關係</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ryqm-9u6i" target="_blank" rel="noopener">2017年3月實作題第2題：小群體</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rk3_PXuvh" target="_blank" rel="noopener">2017年10月實作題第3題：樹狀圖分析</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rJ_9t8KC3" target="_blank" rel="noopener">2019年6月實作題第2題：機器人的路徑</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJJN4RgiR" target="_blank" rel="noopener">2019年10月實作題：傳送點</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/r1qnnbKvR" target="_blank" rel="noopener">2020年1月實作題第4題：貨物分配</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Sy0zcs5j0" target="_blank" rel="noopener">2020年7月實作題第4題：病毒演化</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1Yw6LbJp" target="_blank" rel="noopener">2021年1月實作題第2題：流量</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rJMItFbJ6" target="_blank" rel="noopener">2021年9月實作題第2題：魔王迷宮</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/H17sd0QJp" target="_blank" rel="noopener">2021年11月實作題第2題：動線安排</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BkkdwGJqA" target="_blank" rel="noopener">2022年10月實作題第3題：石窟探險</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJfjUhHoC" target="_blank" rel="noopener">2023年6月實作題第4題：開啟寶盒</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkBTY4X90" target="_blank" rel="noopener">2023年10月實作題第3題：搬家</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkZh8Y3xkx" target="_blank" rel="noopener">2024年10月實作題第3題：連鎖反應</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ByvpSm5Eel" target="_blank" rel="noopener">2025年6月實作題第4題：分組遊戲</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="DP 動態規劃 前綴和 區間DP">
+      <div class="category-header">
+        <div>
+          <h2>動態規劃 DP</h2>
+          <p class="note">包含線性 DP、區間 DP、樹狀/圖上 DP、前綴和優化與狀態轉移。</p>
+        </div>
+        <span class="tag">18 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/r1qnnbKvR" target="_blank" rel="noopener">2020年1月實作題第4題：貨物分配</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1gC2piDC" target="_blank" rel="noopener">2020年10月實作題第3題：勇者修煉</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Sk6FFwsvA" target="_blank" rel="noopener">2021年1月實作題第3題：切割費用</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJFUTSXqR" target="_blank" rel="noopener">2021年1月實作題第4題：飛黃騰達</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B15G5vawR" target="_blank" rel="noopener">2021年9月實作題第3題：幸運數字</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1A8ZuEoR" target="_blank" rel="noopener">2021年9月實作題第4題：美食博覽會</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S12W5DvYA" target="_blank" rel="noopener">2021年11月實作題第3題：生產線</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hk_ny251p" target="_blank" rel="noopener">2022年1月實作題第2題：贏家預測</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/ry37AOuKR" target="_blank" rel="noopener">2022年1月實作題第3題：數位占卜</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Sk32rZs9A" target="_blank" rel="noopener">2022年1月實作題第4題：牆上海報</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S12HkFg5R" target="_blank" rel="noopener">2023年1月實作題第3題：先加後乘與函數</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJ7tA3Y5R" target="_blank" rel="noopener">2023年1月實作題第4題：機器出租</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJ_bUXncA" target="_blank" rel="noopener">2023年10月實作題第4題：投資遊戲</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HyI60Pn90" target="_blank" rel="noopener">2024年1月實作題第4題：合併成本</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HkPiufesR" target="_blank" rel="noopener">2024年6月實作題第4題：最佳選擇</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJmDuFhg1l" target="_blank" rel="noopener">2024年10月實作題第4題：搭到終點</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/By5CyqQD1e" target="_blank" rel="noopener">2025年1月實作題第4題：分組開會</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/H1GSRN6Kbe" target="_blank" rel="noopener">2026年3月中高級實作題第1題：比例分割</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="貪心 Heap Priority Queue 優先佇列">
+      <div class="category-header">
+        <div>
+          <h2>貪心、Heap 與 Priority Queue</h2>
+          <p class="note">每步選擇局部最佳，或用優先佇列維護下一個處理狀態。</p>
+        </div>
+        <span class="tag">4 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1TKPdFwA" target="_blank" rel="noopener">2020年1月實作題第3題：砍樹</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1e_lQucC" target="_blank" rel="noopener">2022年10月實作題第4題：蓋步道</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/H13KHX9Nxg" target="_blank" rel="noopener">2025年6月實作題第3題：貪心闖關</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Hkea_h_xbl" target="_blank" rel="noopener">2025年11月高級實作題第1題：字母配對</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="窮舉 Backtracking DFS 剪枝">
+      <div class="category-header">
+        <div>
+          <h2>窮舉、Backtracking 與 DFS 剪枝</h2>
+          <p class="note">搜尋所有可能組合，並用限制條件減少分支。</p>
+        </div>
+        <span class="tag">4 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/rytx3TZiC" target="_blank" rel="noopener">2018年2月實作題第3題：支點切割</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BkApyq7v1l" target="_blank" rel="noopener">2025年1月實作題第3題：重組問題</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SyjN5Htx-g" target="_blank" rel="noopener">2025年11月高級實作題第2題：列印工廠</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BJ2RCxJ5Wg" target="_blank" rel="noopener">2026年3月中高級實作題第3題：校運代表隊</a></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="圖論 連通性 最短路 可達性">
+      <div class="category-header">
+        <div>
+          <h2>圖論進階、連通性與可達性</h2>
+          <p class="note">較接近圖論建模，包含路徑、連通、特殊節點與移動序列。</p>
+        </div>
+        <span class="tag">5 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/BkkdwGJqA" target="_blank" rel="noopener">2022年10月實作題第3題：石窟探險</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/S1e_lQucC" target="_blank" rel="noopener">2022年10月實作題第4題：蓋步道</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/B1pAzbgea" target="_blank" rel="noopener">2023年6月實作題第1題：路徑偵測</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/Byd0Idzep" target="_blank" rel="noopener">2023年6月實作題第2題：特殊位置</a></li>
+        <li class="problem"><span>2023年6月實作題第3題：磁軌移動序列</span><small>原 APCS 整理頁未提供可讀取的作者題解連結</small></li>
+      </ul>
+    </section>
+
+    <section class="category" data-category="特殊資料結構 單調結構 前綴 資料結構">
+      <div class="category-header">
+        <div>
+          <h2>其他特殊資料結構與技巧</h2>
+          <p class="note">不容易只歸入單一基本類型，適合獨立整理成進階技巧。</p>
+        </div>
+        <span class="tag">5 題</span>
+      </div>
+      <ul class="problems">
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/By3_To9i0" target="_blank" rel="noopener">2020年10月實作題第4題：低地距離</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HklOme9tR" target="_blank" rel="noopener">2022年6月實作題第3題：雷射測試</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJHABxcYR" target="_blank" rel="noopener">2022年6月實作題第4題：內積</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/SJeigpwga" target="_blank" rel="noopener">2022年10月實作題第2題：運貨站</a></li>
+        <li class="problem"><a href="https://hackmd.io/@yizhewang/HJfjUhHoC" target="_blank" rel="noopener">2023年6月實作題第4題：開啟寶盒</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      題目與解題連結來源：王一哲老師 APCS 整理頁與其 HackMD 解題頁。部分題目會跨多個演算法，本頁以教學整理時最常用的主演算法分類，必要時也讓題目出現在第二個相關分類。
+    </div>
+  </footer>
+
+  <script>
+    const search = document.querySelector("#search");
+    const totalCount = document.querySelector("#total-count");
+    const visibleCount = document.querySelector("#visible-count");
+    const empty = document.querySelector("#empty");
+    const categories = Array.from(document.querySelectorAll(".category"));
+    const problems = Array.from(document.querySelectorAll(".problem"));
+
+    totalCount.textContent = problems.length;
+
+    function update() {
+      const query = search.value.trim().toLowerCase();
+      let visible = 0;
+      let visibleCategories = 0;
+
+      categories.forEach((category) => {
+        let categoryHasMatch = false;
+        const categoryText = category.dataset.category.toLowerCase();
+        const items = Array.from(category.querySelectorAll(".problem"));
+
+        items.forEach((item) => {
+          const text = (item.textContent + " " + categoryText).toLowerCase();
+          const match = !query || text.includes(query);
+          item.style.display = match ? "" : "none";
+          if (match) {
+            visible += 1;
+            categoryHasMatch = true;
+          }
+        });
+
+        category.style.display = categoryHasMatch ? "" : "none";
+        if (categoryHasMatch) visibleCategories += 1;
+      });
+
+      visibleCount.textContent = visible;
+      empty.style.display = visibleCategories ? "none" : "block";
+    }
+
+    search.addEventListener("input", update);
+    update();
+  </script>
+</body>
+</html>
