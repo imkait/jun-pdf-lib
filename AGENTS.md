@@ -29,6 +29,8 @@ HTML5／CSS3／原生 JavaScript；不使用第三方套件，支援目前版本
 
 - [x] 階段一：建立教材 PDF 索引網頁初版。
 - [ ] 階段二：依實際教材擴充學年度與科目資料。
+  - [x] 8 年級第 1 學期：5 科共 16 份教材（國文 5、理化 3、地理 3、歷史 2、公民 3）。
+  - [ ] 其他年級與學期：尚無教材。
 
 ## 資料夾結構
 
@@ -44,6 +46,7 @@ HTML5／CSS3／原生 JavaScript；不使用第三方套件，支援目前版本
 ├── grade*-sem*.html        # 各年級、學期教材頁
 ├── all-grades.html         # 不分年級教材頁
 ├── advanced.html           # 進階教材頁
+├── apcs-classification.html # APCS 實作題演算法分類頁
 └── styles.css              # 網站共用樣式
 ```
 
